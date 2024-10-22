@@ -1,0 +1,7 @@
+{
+  "name": "BtComm",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
