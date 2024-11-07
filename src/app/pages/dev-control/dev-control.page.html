@@ -19,17 +19,38 @@
         <ion-card-title>Controls</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div class="control-grid">
-          <div></div>
-          <ion-button fill="outline">Up</ion-button>
-          <div></div>
-          <ion-button fill="outline">Down</ion-button>
-          <ion-button fill="outline" color="danger">Stop</ion-button>
-          <ion-button fill="outline">Left</ion-button>
-          <div></div>
-          <ion-button fill="outline">Right</ion-button>
-          <div></div>
-        </div>
+        <ion-segment>
+          <ion-segment-button value="controls" content-id="controls">
+            <ion-label>Controls</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="advanced" content-id="advanced">
+            <ion-label>Advanced</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+        <ion-segment-view>
+          <ion-segment-content id="controls">
+            <div class="control-grid">
+              <div></div>
+              <ion-button fill="outline" (click)="sendMessage([97])">Up</ion-button>
+              <div></div>
+              <ion-button fill="outline" (click)="sendMessage([116])">Down</ion-button>
+              <ion-button fill="outline" color="danger" (click)="sendMessage([115])">Stop</ion-button>
+              <ion-button fill="outline" (click)="sendMessage([105])">Left</ion-button>
+              <div></div>
+              <ion-button fill="outline" (click)="sendMessage([100])">Right</ion-button>
+              <div></div>
+            </div>
+          </ion-segment-content>
+          <ion-segment-content id="advanced">
+            <div class="adv-contents">
+              <ion-textarea #hstTextArea [(ngModel)]="historyBufferText" rows="20" class="message-history" [readonly]="true" placeholder="Message history will appear here."></ion-textarea>
+              <ion-input label="Port COM" label-placement="floating" fill="outline"
+                         [(ngModel)]="messageBuffer"
+                         (keyup.enter)="sendMessageBuffer()"
+              ></ion-input>
+            </div>
+          </ion-segment-content>
+        </ion-segment-view>
       </ion-card-content>
     </ion-card>
 

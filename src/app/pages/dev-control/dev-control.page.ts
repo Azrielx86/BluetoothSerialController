@@ -1,8 +1,8 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Router} from "@angular/router";
 import {BluetoothDevice} from "../../typings/BluetoothDevice";
 import {NavController, Platform} from "@ionic/angular";
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {catchError, tap} from "rxjs";
 import {BluetoothSerial} from "@awesome-cordova-plugins/bluetooth-serial/ngx";
 import {ToastController} from "@ionic/angular/standalone";
 
@@ -12,8 +12,13 @@ import {ToastController} from "@ionic/angular/standalone";
   styleUrls: ['./dev-control.page.scss']
 })
 export class DevControlPage implements OnInit, OnDestroy {
+  @ViewChild("hstTextArea") hstTextArea!: ElementRef;
   public deviceName: string = "";
   public isConnected: boolean = false;
+  public messageBuffer: string = "";
+  private historyBuffer: string[] = [];
+  public historyBufferText: string = "";
+  private maxMessages: number = 100;
   private device!: BluetoothDevice;
 
   constructor(
@@ -74,18 +79,38 @@ export class DevControlPage implements OnInit, OnDestroy {
     this.disconnectDevice();
   }
 
-  disconnectDevice = () => {
+  disconnectDevice = (): void => {
     this.bluetoothSerial.disconnect().then(() => {
       console.log("Exited device page");
     });
   };
 
-  onDisconnectClick = async () => {
+  onDisconnectClick = async (): Promise<void> => {
     await this.nav.pop();
   };
 
-  onMessageReceived = (data: string) => {
+  onMessageReceived = (data: string): void => {
     console.log(`Message received: ${data}`);
+    this.appendMessageHistory(`[${this.deviceName}]> ${data}`);
   };
 
+  sendMessage = async (data: number[]): Promise<void> => {
+    await this.bluetoothSerial.write(data);
+  };
+
+  sendMessageBuffer = async (): Promise<void> => {
+    await this.bluetoothSerial.write(this.messageBuffer.split('').map(c => c.charCodeAt(0)));
+    this.appendMessageHistory(`[User]> ${this.messageBuffer}`);
+    this.messageBuffer = "";
+  };
+
+  appendMessageHistory = (message: string): void => {
+    this.historyBuffer.push(message);
+    if (this.historyBuffer.length > this.maxMessages)
+      this.historyBuffer.shift();
+
+    this.ngZone.run(() => {
+      this.historyBufferText = this.historyBuffer.join("\n");
+    });
+  };
 }

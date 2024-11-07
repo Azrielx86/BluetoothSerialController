@@ -3,6 +3,7 @@ div.control-grid {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   height: 50vh;
+  margin-top: 1.5rem;
 }
 
 div.connection-status {
@@ -10,4 +11,11 @@ div.connection-status {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+div.adv-contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50vh;
 }
