@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { DevControlPageRoutingModule } from './dev-control-routing.module';
 
 import { DevControlPage } from './dev-control.page';
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DevControlPageRoutingModule
+    DevControlPageRoutingModule,
+    NgxSliderModule
   ],
   declarations: [DevControlPage]
 })

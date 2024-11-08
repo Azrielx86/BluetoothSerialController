@@ -5,6 +5,7 @@ import {NavController, Platform} from "@ionic/angular";
 import {catchError, tap} from "rxjs";
 import {BluetoothSerial} from "@awesome-cordova-plugins/bluetooth-serial/ngx";
 import {ToastController} from "@ionic/angular/standalone";
+import {Options} from "@angular-slider/ngx-slider";
 
 @Component({
   selector: 'app-dev-control',
@@ -16,6 +17,14 @@ export class DevControlPage implements OnInit, OnDestroy {
   public deviceName: string = "";
   public isConnected: boolean = false;
   public messageBuffer: string = "";
+  public slider: number = 16;
+  public sliderOptions: Options = {
+    floor: 16,
+    ceil: 96,
+    tickStep: 2,
+    hideLimitLabels: true,
+    hidePointerLabels: true
+  };
   private historyBuffer: string[] = [];
   public historyBufferText: string = "";
   private maxMessages: number = 100;
@@ -113,4 +122,8 @@ export class DevControlPage implements OnInit, OnDestroy {
       this.historyBufferText = this.historyBuffer.join("\n");
     });
   };
+
+  sliderUpdated = async () => {
+    await this.sendMessage([this.slider]);
+  }
 }
