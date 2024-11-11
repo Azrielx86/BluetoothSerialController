@@ -21,8 +21,6 @@ This application includes a simple _terminal_ to communicate with the Bluetooth 
 
 ## Screenshots
 
-![Main View](./docs/img/main_view.jpg)
-
-![Basic Controls](./docs/img/basic_control.jpg)
-
-![Advanced Controls](./docs/img/advanced_control.jpg)
+| Main View                                           | Basic Control                                           | Advanced Mode                                              |
+| --------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------- |
+| <img src="./docs/img/main_view.jpg" alt="drawing"/> | <img src="./docs/img/basic_control.jpg" alt="drawing"/> | <img src="./docs/img/advanced_control.jpg" alt="drawing"/> |
